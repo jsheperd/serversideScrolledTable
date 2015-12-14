@@ -16,7 +16,10 @@
 
 <body>
   <div class="container" ng-controller="MyController">
-    <h1>The pos is: {{skip}}, status is {{status}}, count: {{count}}</h1>
+    <h1>Scrollable table</h1>
+    <p><input type="checkbox" ng-model="showStatus"> Show status 
+    <strong ng-show="showStatus" >The pos is: {{skip}}, status is {{status}}, count: {{count}}</strong>
+    </p>
     <input type="range" min="0" ng-max="count" step="10" ng-model=skip ng-click="updateQuery()" ng-change="updateQuery()" autofocus>
     <table class="table table-striped">
       <tr ng-repeat="c in customers">

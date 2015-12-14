@@ -27,6 +27,7 @@ app.factory('Customer', function ($resource) {
 app.controller("MyController", function ($scope, Customer) {
   $scope.skip = 0;
   $scope.customers = [];
+  $scope.showStatus = true;
   $scope.status = "";
   $scope.count = 0;
 
@@ -35,7 +36,7 @@ app.controller("MyController", function ($scope, Customer) {
       '$skip': $scope.skip,
       '$top': 10
     };
-    $scope.status = "Requested";
+    $scope.status = "processing";
     Customer.query(params).$promise
       .then(function (response) {
         $scope.customers = response.value;
