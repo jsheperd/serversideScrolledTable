@@ -30,23 +30,42 @@ app.controller("MyController", function ($scope, Customer) {
   $scope.showStatus = true;
   $scope.status = "";
   $scope.count = 0;
+  $scope.delayedCall = false;
+  $scope.timeout = 800;
 
-  $scope.updateQuery = function () {
+  $scope.callQuery = function () {
     var params = {
       '$skip': $scope.skip,
       '$top': 10
     };
     $scope.status = "processing";
+    
     Customer.query(params).$promise
       .then(function (response) {
         $scope.customers = response.value;
         $scope.status = "solved";
       });
+    
     Customer.count().$promise
       .then(function (response) {
         $scope.count = response.value;
+        $scope.delayedCall = false;
       });
   }
 
-  $scope.updateQuery();
+  $scope.updateQuery = function () {
+    if(!$scope.delayedCall) {
+      $scope.delayedCall = setTimeout( $scope.callQuery, $scope.timeout);
+      $scope.status = "waiting";
+    }
+    else {
+      clearTimeout($scope.delayedCall);
+      $scope.delayedCall = setTimeout( $scope.callQuery, $scope.timeout);
+      $scope.status = "postponed waiting";
+    }
+  }
+
+
+
+  $scope.callQuery();
 });
