@@ -31,7 +31,7 @@ app.controller("MyController", function ($scope, Customer) {
   $scope.status = "";
   $scope.count = 0;
   $scope.delayedCall = false;
-  $scope.timeout = 800;
+  $scope.timeout = 300;
 
   $scope.callQuery = function () {
     var params = {
@@ -53,6 +53,8 @@ app.controller("MyController", function ($scope, Customer) {
       });
   }
 
+  
+  // Manage the resource call timeout
   $scope.updateQuery = function () {
     if(!$scope.delayedCall) {
       $scope.delayedCall = setTimeout( $scope.callQuery, $scope.timeout);
@@ -65,7 +67,7 @@ app.controller("MyController", function ($scope, Customer) {
     }
   }
 
-
+  $scope.$watch('skip', $scope.updateQuery);
 
   $scope.callQuery();
 });
